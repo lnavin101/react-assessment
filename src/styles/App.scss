@@ -10,6 +10,11 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-Chip {
-    padding: 5px;
+h1::after {
+    content:"";
+    display:block;
+    width: 3em;
+    max-width:70%;
+    border-bottom: 0.2em solid #004299;
+    margin: 0.25em 0.75em;
 }

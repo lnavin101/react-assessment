@@ -6,7 +6,8 @@ createServer({
   routes() {
     this.namespace = 'api';
 
-    this.get('/posts', () => {
+    this.get('/posts', (schema, request) => {
+      let query = request.queryParams;
       return data;
     });
 

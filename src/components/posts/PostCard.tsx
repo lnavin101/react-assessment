@@ -11,8 +11,9 @@ import { useEffect, useState } from 'react';
 import { IAllPost, IPost } from './models/IPost.interface';
 import { Chip, Grid, Pagination, Stack } from '@mui/material';
 import { formatDate } from '../../shared/utils';
+import { clickHandlerProp } from './models/IProp.interface';
 
-export default function PostCard() {
+export default function PostCard({params,callback}: clickHandlerProp) {
     // state
     const [data, setData] = useState<IAllPost>();
     const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ export default function PostCard() {
     const currentPosts = data?.posts.slice(indexOfFirstPost, indexOfLastPost);
 
     useEffect(() => {
-        fetch('/api/posts')
+        fetch(`/api/posts?${params}`)
             .then((response) => response.json())
             .then((data) => setData(data))
             .finally(() => setLoading(false))
@@ -47,7 +48,7 @@ export default function PostCard() {
             {
                 currentPosts?.map((post: IPost) => {
                     return <Grid>
-                    <Card sx={{ height: 500, width: 345, borderRadius: 10, margin: 1.5}}>
+                    <Card onClick={() =>callback(post.id)} sx={{ height: 500, width: 345, borderRadius: 10, margin: 1.5}}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} src={post?.author.avatar} aria-label="author">

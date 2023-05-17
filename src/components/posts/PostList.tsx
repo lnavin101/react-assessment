@@ -3,6 +3,7 @@ import { DataGrid, GridCellParams, GridColDef, GridValueGetterParams } from '@mu
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom" 
 import { formatDate } from '../../shared/utils';
+import { clickHandlerProp } from './models/IProp.interface';
 
 const columns: GridColDef[] = [
     { field: 'title', headerName: 'Title', flex: 1 },
@@ -23,7 +24,7 @@ const columns: GridColDef[] = [
     },
 ];
 
-export default function DataTable() {
+export default function DataTable ({params,callback}: clickHandlerProp) {
     const navigate = useNavigate()
     // state
     const [data, setData] = useState([]);
@@ -31,7 +32,7 @@ export default function DataTable() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('/api/posts')
+        fetch(`/api/posts?${params}`)
         .then((response) => response.json())
         .then((data) => setData(data?.posts))
         .finally(() => setLoading(false))
@@ -40,10 +41,6 @@ export default function DataTable() {
             setError(error);
         });
     }, [])
-
-    const handleClick = (params: GridCellParams) => {
-        return navigate(`/detail/${params.row.id}`)
-    }
 
     return (
         <div>
@@ -57,7 +54,7 @@ export default function DataTable() {
                         },
                     }}
                     pageSizeOptions={[5, 10]}
-                    onCellClick={handleClick}
+                    onCellClick={(params) => callback(params.row.id)}
                 />
             </div>
         </div>
