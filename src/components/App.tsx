@@ -1,13 +1,13 @@
 import Header from "./core/Header";
 import {Routes , Route } from "react-router-dom" 
-import PostList from "./posts/PostList";
+import Post from "./posts/Post";
 import PostDetail from "./posts/PostDetails";
 
 function App() {
   return <div>
-    <Header/>
+    {/* <Header/> */}
     <Routes> 
-            <Route path="/" element={<PostList/> } /> 
+            <Route path="/" element={<Post/> } /> 
             <Route path="/detail/:id" element={<PostDetail/> } /> 
        </Routes> 
   </div>;

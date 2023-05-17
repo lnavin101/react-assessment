@@ -1,13 +1,8 @@
 import * as React from 'react';
 import { DataGrid, GridCellParams, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import moment from 'moment';
 import { useNavigate } from "react-router-dom" 
-
-/** readable format for date */
-const formatDate = (params: any) => {
-    return moment(params.value).format('DD MMM YYYY');
-}
+import { formatDate } from '../../shared/utils';
 
 const columns: GridColDef[] = [
     { field: 'title', headerName: 'Title', flex: 1 },
@@ -51,18 +46,20 @@ export default function DataTable() {
     }
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={data}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                pageSizeOptions={[5, 10]}
-                onCellClick={handleClick}
-            />
+        <div>
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    rows={data}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                    onCellClick={handleClick}
+                />
+            </div>
         </div>
     );
 }

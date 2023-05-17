@@ -10,7 +10,7 @@ import {BrowserRouter} from "react-router-dom"
 import './mock';
 
 // Include styles.
-import './styles/index.css';
+import './styles/App.scss';
 
 // Include application component.
 import App from './components/App';

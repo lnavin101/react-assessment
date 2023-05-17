@@ -16,3 +16,7 @@ export interface IPost {
     summary: string,
     categories: ICategory[]
 }
+
+export interface IAllPost {
+    posts: IPost[]
+}
