@@ -8,6 +8,12 @@ createServer({
 
     this.get('/posts', (schema, request) => {
       let query = request.queryParams;
+      if(query?.categories){
+        let filtered = data.posts.filter((post) => post.categories.some((cg)=> query.categories == cg.name))
+        return {
+          posts: filtered ?? []
+        }
+      }
       return data;
     });
 

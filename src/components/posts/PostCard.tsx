@@ -36,7 +36,7 @@ export default function PostCard({params,callback}: clickHandlerProp) {
                 console.log(error);
                 setError(error);
             });
-    }, [])
+    }, [params]) // re-fetch when params change
 
     const paginate = (pageNumber: number) => {
         setCurrentPage(pageNumber);
@@ -48,7 +48,7 @@ export default function PostCard({params,callback}: clickHandlerProp) {
             {
                 currentPosts?.map((post: IPost) => {
                     return <Grid>
-                    <Card onClick={() =>callback(post.id)} sx={{ height: 500, width: 345, borderRadius: 10, margin: 1.5}}>
+                    <Card key={post.id} onClick={() =>callback(post.id)} sx={{ height: 500, width: 345, borderRadius: 10, margin: 1.5}}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} src={post?.author.avatar} aria-label="author">

@@ -40,7 +40,7 @@ export default function DataTable ({params,callback}: clickHandlerProp) {
             console.log(error);
             setError(error);
         });
-    }, [])
+    }, [params])
 
     return (
         <div>

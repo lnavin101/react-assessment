@@ -13,8 +13,8 @@ code {
 h1::after {
     content:"";
     display:block;
-    width: 3em;
+    width: 4em;
     max-width:70%;
     border-bottom: 0.2em solid #004299;
-    margin: 0.25em 0.75em;
+    margin: 0.25em auto;
 }

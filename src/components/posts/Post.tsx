@@ -40,13 +40,21 @@ export default function Post() {
         setFilter(!filter);
     }
 
-    const handleFilterChange = (event: SyntheticEvent, value: string[]) => {
-        setSearchParams({'category': value})
+    const handleFilterChange = (event: SyntheticEvent, value: string | null) => {
+        value ? setSearchParams({'categories': value}):
+        setSearchParams();
     }
 
     return (
         <div>
-            <h1>Latest Posts</h1>
+            <Grid
+                    container
+                    direction="row"
+                    justifyContent="flex-start"
+                    alignItems="center"
+                >
+                    <h1>Latest Posts</h1>
+                </Grid>
             <Grid container spacing={3} justifyContent="space-between" alignItems="flex-end" sx={{ marginBottom: 2 }}>
                 <Grid item>
                     <ToggleButtonGroup
@@ -62,19 +70,24 @@ export default function Post() {
                     </ToggleButtonGroup>
                 </Grid>
                 <Grid item>
-                    {filter ? <Autocomplete
-                        disablePortal
-                        id="category-filter"
-                        multiple={true}
-                        onChange={handleFilterChange}
-                        options={options}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Choose Category" />}
-                    /> : <div />}
-                    <IconButton onClick={handleFilter} size="large" aria-label="filter" color="primary">
-                        {!filter ?
-                            <FilterAltIcon /> : <FilterAltOffIcon />}
-                    </IconButton>
+                    <Grid container spacing={3} justifyContent="flex-end" alignItems="flex-end">
+                        <Grid item>
+                            {filter ? <Autocomplete
+                                disablePortal
+                                id="category-filter"
+                                onChange={handleFilterChange}
+                                options={options}
+                                sx={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Choose Category" />}
+                            /> : <div />}
+                        </Grid>
+                        <Grid item>
+                            <IconButton onClick={handleFilter} size="large" aria-label="filter" color="primary">
+                                {!filter ?
+                                    <FilterAltIcon /> : <FilterAltOffIcon />}
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
 
