@@ -1,11 +1,12 @@
-import { Autocomplete, Button, Grid, Icon, IconButton, MenuItem, Select, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { Autocomplete, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { SyntheticEvent, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PostCard from "./PostCard";
 import PostList from "./PostList";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 
+// filter options
 const options = [
     "Data Management",
     "Digital Marketing",
@@ -40,6 +41,7 @@ export default function Post() {
         setFilter(!filter);
     }
 
+    /** set query params to url */
     const handleFilterChange = (event: SyntheticEvent, value: string | null) => {
         value ? setSearchParams({'categories': value}):
         setSearchParams();
@@ -55,7 +57,7 @@ export default function Post() {
                 >
                     <h1>Latest Posts</h1>
                 </Grid>
-            <Grid container spacing={3} justifyContent="space-between" alignItems="flex-end" sx={{ marginBottom: 2 }}>
+            <Grid container spacing={3} justifyContent="space-between" alignItems="center" sx={{ marginBottom: 2 }}>
                 <Grid item>
                     <ToggleButtonGroup
                         color="primary"
@@ -70,7 +72,7 @@ export default function Post() {
                     </ToggleButtonGroup>
                 </Grid>
                 <Grid item>
-                    <Grid container spacing={3} justifyContent="flex-end" alignItems="flex-end">
+                    <Grid container justifyContent="flex-end" alignItems="center">
                         <Grid item>
                             {filter ? <Autocomplete
                                 disablePortal
@@ -91,7 +93,7 @@ export default function Post() {
                 </Grid>
             </Grid>
 
-            {view == 'card' ?
+            {view === 'card' ?
                 <PostCard params={searchParams} callback={handleClick}></PostCard> :
                 <PostList params={searchParams} callback={handleClick}></PostList>
             }

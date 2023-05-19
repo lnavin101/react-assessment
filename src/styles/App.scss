@@ -4,7 +4,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 20px;
-    background-color: #fff2e8;
+    background-color: #ffffff;
 }
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -17,4 +17,13 @@ h1::after {
     max-width:70%;
     border-bottom: 0.2em solid #004299;
     margin: 0.25em auto;
+}
+
+.row,
+.card {
+    cursor: pointer;
+}
+
+.table-header {
+    background-color: rgb(224, 224, 224);
 }

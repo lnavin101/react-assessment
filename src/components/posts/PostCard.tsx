@@ -1,33 +1,33 @@
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import ShareIcon from '@mui/icons-material/Share';
 import { useEffect, useState } from 'react';
-import { IAllPost, IPost } from './models/IPost.interface';
+import { IPost } from './models/IPost.interface';
 import { Chip, Grid, Pagination, Stack } from '@mui/material';
 import { formatDate } from '../../shared/utils';
 import { clickHandlerProp } from './models/IProp.interface';
+import Loader from '../core/Loader';
 
 export default function PostCard({params,callback}: clickHandlerProp) {
     // state
-    const [data, setData] = useState<IAllPost>();
+    const [data, setData] = useState<IPost[]>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(5);
 
-    const totalPage = (data?.posts.length ?? 1) / postsPerPage;
+    const totalPage = Math.floor((data?.length ?? 1) / postsPerPage);
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = data?.posts.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = data?.slice(indexOfFirstPost, indexOfLastPost);
 
     useEffect(() => {
+        setLoading(true); // update loading state
         fetch(`/api/posts?${params}`)
             .then((response) => response.json())
             .then((data) => setData(data))
@@ -46,9 +46,23 @@ export default function PostCard({params,callback}: clickHandlerProp) {
         <div>
             <Grid container spacing={1}>
             {
-                currentPosts?.map((post: IPost) => {
-                    return <Grid>
-                    <Card key={post.id} onClick={() =>callback(post.id)} sx={{ height: 500, width: 345, borderRadius: 10, margin: 1.5}}>
+                loading ?
+                <Grid
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="flex-start"
+                >
+                {
+                     Array.from(new Array(5)).map((val, i)=>{
+                        return <Loader key={i}/>
+                    })
+                }
+                </Grid>:
+                
+                currentPosts?.map((post: IPost, i: number) => {
+                    return <Grid key={i}>
+                    <Card className='card' key={i} variant="outlined" onClick={() =>callback(post.id)} sx={{ height: 500, width: 345, borderRadius: 10, margin: 1.5}}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} src={post?.author.avatar} aria-label="author">
@@ -65,13 +79,8 @@ export default function PostCard({params,callback}: clickHandlerProp) {
                                 {post?.summary}
                             </Typography>
                             <br />
-                            {post?.categories.map((value: any, i: number) => <Chip sx={{ margin: 0.5 }} label={value?.name} />)}
+                            {post?.categories.map((value: any, i: number) => <Chip key={i} sx={{ margin: 0.5 }} label={value?.name} />)}
                         </CardContent>
-                        <CardActions disableSpacing>
-                            <IconButton aria-label="share">
-                                <ShareIcon />
-                            </IconButton>
-                        </CardActions>
                     </Card>
                     </Grid>
                 })

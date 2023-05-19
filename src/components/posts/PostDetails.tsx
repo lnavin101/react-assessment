@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 import { formatDate } from '../../shared/utils';
 import { IPost } from './models/IPost.interface';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import { LoaderDetails } from '../core/Loader';
 
 export default function Detail() {
+    // get url param
     const params = useParams();
 
     // state
@@ -23,13 +23,10 @@ export default function Detail() {
                 console.log(error);
                 setError(error);
             });
-    }, [])
+    }, [params.id])
 
     return (
         <div>
-            {
-                loading ?
-                <LoaderDetails/>:
             <Paper elevation={3} sx={{ padding: 2 }}>
                 <Grid
                     container
@@ -39,7 +36,7 @@ export default function Detail() {
                 >
                     {
                         loading ?
-                            <Skeleton variant="rectangular" width={210} height={60} /> :
+                            <Skeleton variant="rectangular" width={210} height={60} />:
                             <h1>{data?.title}</h1>
                     }
                     {
@@ -75,7 +72,12 @@ export default function Detail() {
                     alignItems="flex-start"
                 >
                     <h3>Summary</h3>
-                    <p>{data?.summary}</p>
+                    {
+                        loading ?
+                        <Skeleton variant="rectangular" width={210} height={60} />:
+                        <p>{data?.summary}</p>
+                    }
+                    
                 </Grid>
 
                 <Grid
@@ -85,10 +87,13 @@ export default function Detail() {
                     alignItems="flex-start"
                 >
                     <h3>Categories</h3>
-                    {data?.categories.map((value: any, i: number) => <Chip sx={{ margin: 0.5 }} label={value?.name} />)}
+                    {
+                        loading ?
+                        <Skeleton variant="rectangular" width={210} height={60} />:
+                        data?.categories.map((value: any, i: number) => <Chip sx={{ margin: 0.5 }} label={value?.name} />)
+                    }
                 </Grid>
             </Paper>
-            }
         </div>
     )
 }
